@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "K2nXdeOFG65Xs8ppyJKdKbeCjFCnE+QKLbpbP/VHdgc=",
+  "Source": "ControlService",
+  "BasePath": "_content/ControlService",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

@@ -1,8 +1,26 @@
 {
   "version": 2,
-  "dgSpecHash": "81zsiuyV+JpOfB/Azt8E/jFTSe9eS0xcci4cW8p+E5ePukjG06XzgVgttOY+uAEy1S1i1+wL6SM1oznpk6ji4w==",
+  "dgSpecHash": "8KYwsrGMk5YfFUOVVl5RiUILfO6nMpnqJhl4LGGopAkmr2r2Vs6iWSEi+CDiLBw8Wf9/THFVrHCrBzriSqRZ1w==",
   "success": true,
   "projectFilePath": "C:\\Git projects\\Hydrology\\ControlService\\ControlService\\ControlService\\ControlService.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\Александр\\.nuget\\packages\\google.protobuf\\3.25.0\\google.protobuf.3.25.0.nupkg.sha512",
+    "C:\\Users\\Александр\\.nuget\\packages\\grpc.tools\\2.59.0\\grpc.tools.2.59.0.nupkg.sha512",
+    "C:\\Users\\Александр\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.13\\microsoft.entityframeworkcore.7.0.13.nupkg.sha512",
+    "C:\\Users\\Александр\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\7.0.13\\microsoft.entityframeworkcore.abstractions.7.0.13.nupkg.sha512",
+    "C:\\Users\\Александр\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\7.0.13\\microsoft.entityframeworkcore.analyzers.7.0.13.nupkg.sha512",
+    "C:\\Users\\Александр\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\7.0.11\\microsoft.entityframeworkcore.relational.7.0.11.nupkg.sha512",
+    "C:\\Users\\Александр\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\7.0.0\\microsoft.extensions.caching.abstractions.7.0.0.nupkg.sha512",
+    "C:\\Users\\Александр\\.nuget\\packages\\microsoft.extensions.caching.memory\\7.0.0\\microsoft.extensions.caching.memory.7.0.0.nupkg.sha512",
+    "C:\\Users\\Александр\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\7.0.0\\microsoft.extensions.configuration.abstractions.7.0.0.nupkg.sha512",
+    "C:\\Users\\Александр\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\7.0.0\\microsoft.extensions.dependencyinjection.7.0.0.nupkg.sha512",
+    "C:\\Users\\Александр\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\7.0.0\\microsoft.extensions.dependencyinjection.abstractions.7.0.0.nupkg.sha512",
+    "C:\\Users\\Александр\\.nuget\\packages\\microsoft.extensions.logging\\7.0.0\\microsoft.extensions.logging.7.0.0.nupkg.sha512",
+    "C:\\Users\\Александр\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\7.0.0\\microsoft.extensions.logging.abstractions.7.0.0.nupkg.sha512",
+    "C:\\Users\\Александр\\.nuget\\packages\\microsoft.extensions.options\\7.0.0\\microsoft.extensions.options.7.0.0.nupkg.sha512",
+    "C:\\Users\\Александр\\.nuget\\packages\\microsoft.extensions.primitives\\7.0.0\\microsoft.extensions.primitives.7.0.0.nupkg.sha512",
+    "C:\\Users\\Александр\\.nuget\\packages\\npgsql\\7.0.6\\npgsql.7.0.6.nupkg.sha512",
+    "C:\\Users\\Александр\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql\\7.0.11\\npgsql.entityframeworkcore.postgresql.7.0.11.nupkg.sha512"
+  ],
   "logs": []
 }
