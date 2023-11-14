@@ -16,4 +16,12 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.11" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\Dto\" />
+    <Folder Include="Exceptions\" />
+    <Folder Include="Controllers\" />
+    <Folder Include="Services\" />
+    <Folder Include="Utilities\" />
+  </ItemGroup>
+
 </Project>
