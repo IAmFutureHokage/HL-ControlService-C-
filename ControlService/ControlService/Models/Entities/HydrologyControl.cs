@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace ControlService.Models
+namespace ControlService.Models.Entities
 {
     [Table("HydrologyControl")]
     public class HydrologyControl

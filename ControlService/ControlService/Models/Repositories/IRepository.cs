@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
+using System.Reflection.Metadata.Ecma335;
 
-namespace ControlService.Repositories
+namespace ControlService.Models.Repositories
 {
     public interface IRepository<TEntity> where TEntity : class
     {

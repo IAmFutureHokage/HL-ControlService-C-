@@ -1,4 +1,4 @@
-﻿namespace ControlService.Models.Dto
+﻿namespace ControlService.Views.Dto
 {
     public class DtoGetHControl
     {

@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
-using ControlService.Models;
-using ControlService.Models.Dto;
-
-namespace ControlService.AutoMapper
+using ControlService.Views.Dto;
+using ControlService.Models.Entities;
+namespace ControlService.Utilities.AutoMapper
 {
-    public class MapHControl:Profile
+    public class MapHControl : Profile
     {
         public MapHControl(IConfiguration configuration)
         {
@@ -12,7 +11,7 @@ namespace ControlService.AutoMapper
         }
         private void ConfigureHControl()
         {
-            
+
             CreateMap<HydrologyControl, DtoCheckValueHControl>();
             CreateMap<DtoCheckValueHControl, HydrologyControl>();
 
@@ -25,8 +24,8 @@ namespace ControlService.AutoMapper
             CreateMap<HydrologyControl, DtoGetDateHControl>();
             CreateMap<DtoGetDateHControl, HydrologyControl>();
 
-            CreateMap<HydrologyControl,DtoGetHControl>();
-            CreateMap<DtoGetHControl,HydrologyControl>();
+            CreateMap<HydrologyControl, DtoGetHControl>();
+            CreateMap<DtoGetHControl, HydrologyControl>();
         }
     }
 }

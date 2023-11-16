@@ -1,4 +1,4 @@
-﻿namespace ControlService.Enum
+﻿namespace ControlService.Models.Enums
 {
     public enum ControlType
     {

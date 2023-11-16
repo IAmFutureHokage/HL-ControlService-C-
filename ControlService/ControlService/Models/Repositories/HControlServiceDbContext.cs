@@ -1,7 +1,7 @@
-﻿using ControlService.Models;
+﻿using ControlService.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace ControlService.Repositories
+namespace ControlService.Models.Repositories
 {
     public class HControlServiceDbContext : DbContext
     {
