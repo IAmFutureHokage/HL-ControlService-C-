@@ -8,7 +8,8 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
-    <PackageReference Include="Google.Protobuf" Version="3.25.0" />
+    <PackageReference Include="Google.Protobuf" Version="3.25.1" />
+    <PackageReference Include="Grpc.AspNetCore.Server" Version="2.59.0" />
     <PackageReference Include="Grpc.Tools" Version="2.59.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -22,6 +23,7 @@
     <Folder Include="Controllers\" />
     <Folder Include="Services\" />
     <Folder Include="Utilities\Converters\" />
+    <Folder Include="Protos\" />
   </ItemGroup>
 
 </Project>
