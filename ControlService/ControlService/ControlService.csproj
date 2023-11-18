@@ -23,7 +23,10 @@
     <Folder Include="Controllers\" />
     <Folder Include="Services\" />
     <Folder Include="Utilities\Converters\" />
-    <Folder Include="Protos\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Protos\HydrologyControl.proto" GrpcServices="Server" />
   </ItemGroup>
 
 </Project>
