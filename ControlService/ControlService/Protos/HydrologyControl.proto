@@ -1,6 +1,6 @@
 syntax = "proto3";
 option csharp_namespace = "ControlService.Protos";
-service HControl {
+service HydrologyControlService {
 	rpc Create(CreateRequest) returns (CreateReply);
 	rpc Delete(DeleteRequest) returns (DeleteReply);
 	rpc Get(GetRequest) returns (GetReply);
@@ -21,7 +21,7 @@ message CreateReply{
 }
 
 message DeleteRequest {
-	int32 Id = 1;
+	string Id = 1;
 }
 message DeleteReply {
 	bool IsDeleted = 1;
@@ -38,10 +38,6 @@ message GetReply{
 
 message UpdateRequest{
 	repeated HydrologyControl HydrologyControls = 1; 
-	string Datestart = 2;
-	string Dateend = 3;
-	int32 PostCode = 4;
-	int32 Type = 5;
 }
 message UpdateReply{
 	bool IsUpdated = 1;
