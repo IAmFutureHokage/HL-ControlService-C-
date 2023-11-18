@@ -1,72 +1,104 @@
 syntax = "proto3";
 option csharp_namespace = "ControlService.Protos";
 service HydrologyControlService {
-	rpc Create(CreateRequest) returns (CreateReply);
-	rpc Delete(DeleteRequest) returns (DeleteReply);
-	rpc Get(GetRequest) returns (GetReply);
-	rpc Update(UpdateRequest) returns (UpdateReply);
-	rpc CheckValue(CheckValueRequest) returns (CheckValueReply);
-	rpc GetDate(GetDateRequest) returns (GetDateReply);
-	rpc GateInterval(GateIntervalRequest) returns (GateIntervalReply);
+	rpc Create(CreateRequest) returns (CreateResponse);
+	rpc Delete(DeleteRequest) returns (DeleteResponse);
+	rpc Get(GetRequest) returns (GetResponse);
+	rpc Update(UpdateRequest) returns (UpdateResponse);
+	rpc CheckValue(CheckValueRequest) returns (CheckValueResponse);
+	rpc GetDate(GetDateRequest) returns (GetDateResponse);
+	rpc GateInterval(GateIntervalRequest) returns (GateIntervalResponse);
 }
 
+
 message CreateRequest {
+	CreateDTO create_dto = 1;
+}
+message CreateResponse {
+	CreateDTO create_dto = 1;
+}
+
+message DeleteRequest {
+	string id = 1;
+}
+message DeleteResponse {
+	bool is_deleted = 1;
+}
+
+message GetRequest {
+	int32 post_code = 1;
+	int32 type = 2;
+	int32 page = 3;
+}
+message GetResponse {
+	repeated HydrologyControl hydrology_controls = 1; 
+}
+
+message UpdateRequest {
+	repeated HydrologyControl hydrology_controls = 1; 
+}
+message UpdateResponse {
+	repeated HydrologyControl hydrology_controls = 1; 
+}
+
+message CheckValueRequest {
+	string date = 1;
+	int32 post_code = 2;
+	int32 value = 3;
+}
+message CheckValueResponse {
+	int32 type = 1;
+}
+
+message GetDateRequest {
+	int32 post_code = 1;
+	string date = 2;
+}
+message GetDateResponse {
+	GetDateDTO values = 1;
+}
+
+message GateIntervalRequest {
+	int32 post_code = 1;
+	string datestart = 2;
+	string dateend = 3;
+}
+message GateIntervalResponse {
+	repeated GateIntervalDTO gate_interval_dto = 1;
+}
+
+
+
+
+message HydrologyControl {
+	string id = 1;
+	int32 post_code = 2;
+	int32 type = 3;
+	string datestart = 4;
+	string dateend = 5;
+	int32 value = 6;
+}
+
+message CreateDTO {
 	int32 PostCode = 1;
 	int32 Type = 2;
 	string Datestart = 3;
 	int32 Value = 4;
 }
-message CreateReply{
-	bool IsCreated = 1;
+
+message GetDateDTO {
+	int32 norm = 1;
+	int32 floodplain = 2;
+	int32 ny = 3;
+	int32 oy = 4;
 }
 
-message DeleteRequest {
-	string Id = 1;
-}
-message DeleteReply {
-	bool IsDeleted = 1;
-}
-
-message GetRequest {
-	int32 PostCode = 1;
-	int32 Type = 2;
-	int32 Page = 3;
-}
-message GetReply{
-	repeated HydrologyControl HydrologyControls = 1; 
-}
-
-message UpdateRequest{
-	repeated HydrologyControl HydrologyControls = 1; 
-}
-message UpdateReply{
-	bool IsUpdated = 1;
-}
-
-message CheckValueRequest{
-	string Date = 1;
-	int32 PostCode = 2;
-	int32 Value = 3;
-}
-message CheckValueReply{
-	int32 Type = 1;
-}
-
-message GetDateRequest{
-	int PostCode = 1;
-	string Date = 2;
-}
-message GetDateReply{
-	repeated int32 Values = 1;
-}
-
-message GateIntervalRequest{
-	int32 PostCode = 1;
-	string Datestart = 2;
-	string Dateend = 3;
-}
-message GateIntervalReply{
-
+message GateIntervalDTO {
+	string date = 1;
+	int32 norm = 2;
+	int32 floodplain = 3;
+	int32 ny = 4;
+	int32 oy = 5;
 }
 
 
