@@ -1,6 +1,6 @@
 syntax = "proto3";
 option csharp_namespace = "ControlService.Protos";
-service HydrologyControlService {
+service HydrologyControlServ {
 	rpc Create(CreateRequest) returns (CreateResponse);
 	rpc Delete(DeleteRequest) returns (DeleteResponse);
 	rpc Get(GetRequest) returns (GetResponse);
