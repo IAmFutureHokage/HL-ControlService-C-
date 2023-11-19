@@ -9,10 +9,9 @@ namespace ControlService.Models.Repositories
         public Task<TEntity> AddAsync(TEntity entity);
         public Task<TEntity> DeleteAsync(Guid id);
         public Task<TEntity> GetAsync(Guid id);
-        public Task<TEntity> UpdateAsync(TEntity entity);
         public Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate);
-        public Task<IEnumerable<TEntity>> UpdateRangeAsync(IEnumerable<TEntity> entities);
         public bool IfAny(Expression<Func<TEntity, bool>> predicate);
+        public TEntity Update(TEntity entity);
 
     }
 }
