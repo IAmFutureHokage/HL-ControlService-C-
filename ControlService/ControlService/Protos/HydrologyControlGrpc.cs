@@ -179,7 +179,7 @@ namespace ControlService.Protos {
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       public virtual global::System.Threading.Tasks.Task<global::ControlService.Protos.GateIntervalResponse> GateInterval(global::ControlService.Protos.GateIntervalRequest request, grpc::ServerCallContext context)
       {
-        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, "")); 
       }
 
     }
