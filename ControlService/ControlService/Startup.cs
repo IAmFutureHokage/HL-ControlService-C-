@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using ControlService.Models.Repositories;
+using ControlService.Protos;
 
 namespace ControlService
 {
@@ -22,8 +23,7 @@ namespace ControlService
             // Настройка подключения к базе данных PostgreSQL
             services.AddDbContext<HControlServiceDbContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
-
-
+            services.AddGrpc();
             var serviceProvider = services.BuildServiceProvider();
             var dbContext = serviceProvider.GetService<HControlServiceDbContext>();
 
@@ -44,11 +44,13 @@ namespace ControlService
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
             {
+                //endpoints.MapGrpcService<HydrologyControlService>();
+                endpoints.MapGrpcService<HydrologyControlService>();
                 endpoints.MapGet("/", async context =>
                 {
                     await context.Response.WriteAsync("Hello, this is an empty page!");
