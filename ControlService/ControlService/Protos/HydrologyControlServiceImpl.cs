@@ -1,12 +1,16 @@
 ﻿using Grpc.Core;
 using ControlService.Models.Repositories;
 using Microsoft.VisualBasic;
+using ControlService.Models.Entities;
+using Microsoft.AspNetCore.Components;
 
 namespace ControlService.Protos
 {
     //:HydrologyControlService.HydrologyControlServiceBase
-    public class HydrologyControlService:HydrologyControlServ.HydrologyControlServBase
+    //[Route("HydrologyControlService")]
+    public class HydrologyControlServiceImpl:HydrologyControlService.HydrologyControlServiceBase
     {
+        
         public override Task<CreateResponse> Create(CreateRequest request, ServerCallContext context)
         {
 

@@ -8,9 +8,9 @@
 using grpc = global::Grpc.Core;
 
 namespace ControlService.Protos {
-  public static partial class HydrologyControlServ
+  public static partial class HydrologyControlService
   {
-    static readonly string __ServiceName = "HydrologyControlServ";
+    static readonly string __ServiceName = "HydrologyControlService";
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static void __Helper_SerializeMessage(global::Google.Protobuf.IMessage message, grpc::SerializationContext context)
@@ -136,9 +136,9 @@ namespace ControlService.Protos {
       get { return global::ControlService.Protos.HydrologyControlReflection.Descriptor.Services[0]; }
     }
 
-    /// <summary>Base class for server-side implementations of HydrologyControlServ</summary>
-    [grpc::BindServiceMethod(typeof(HydrologyControlServ), "BindService")]
-    public abstract partial class HydrologyControlServBase
+    /// <summary>Base class for server-side implementations of HydrologyControlService</summary>
+    [grpc::BindServiceMethod(typeof(HydrologyControlService), "BindService")]
+    public abstract partial class HydrologyControlServiceBase
     {
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       public virtual global::System.Threading.Tasks.Task<global::ControlService.Protos.CreateResponse> Create(global::ControlService.Protos.CreateRequest request, grpc::ServerCallContext context)
@@ -179,7 +179,7 @@ namespace ControlService.Protos {
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       public virtual global::System.Threading.Tasks.Task<global::ControlService.Protos.GateIntervalResponse> GateInterval(global::ControlService.Protos.GateIntervalRequest request, grpc::ServerCallContext context)
       {
-        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, "")); 
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
 
     }
@@ -187,7 +187,7 @@ namespace ControlService.Protos {
     /// <summary>Creates service definition that can be registered with a server</summary>
     /// <param name="serviceImpl">An object implementing the server-side handling logic.</param>
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    public static grpc::ServerServiceDefinition BindService(HydrologyControlServBase serviceImpl)
+    public static grpc::ServerServiceDefinition BindService(HydrologyControlServiceBase serviceImpl)
     {
       return grpc::ServerServiceDefinition.CreateBuilder()
           .AddMethod(__Method_Create, serviceImpl.Create)
@@ -204,7 +204,7 @@ namespace ControlService.Protos {
     /// <param name="serviceBinder">Service methods will be bound by calling <c>AddMethod</c> on this object.</param>
     /// <param name="serviceImpl">An object implementing the server-side handling logic.</param>
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    public static void BindService(grpc::ServiceBinderBase serviceBinder, HydrologyControlServBase serviceImpl)
+    public static void BindService(grpc::ServiceBinderBase serviceBinder, HydrologyControlServiceBase serviceImpl)
     {
       serviceBinder.AddMethod(__Method_Create, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::ControlService.Protos.CreateRequest, global::ControlService.Protos.CreateResponse>(serviceImpl.Create));
       serviceBinder.AddMethod(__Method_Delete, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::ControlService.Protos.DeleteRequest, global::ControlService.Protos.DeleteResponse>(serviceImpl.Delete));

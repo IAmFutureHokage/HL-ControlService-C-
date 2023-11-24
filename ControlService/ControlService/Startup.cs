@@ -24,6 +24,7 @@ namespace ControlService
             services.AddDbContext<HControlServiceDbContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddGrpc();
+            //services.AddGrpc(options => { options.EnableDetailedErrors = true; }) ;
             var serviceProvider = services.BuildServiceProvider();
             var dbContext = serviceProvider.GetService<HControlServiceDbContext>();
 
@@ -47,14 +48,15 @@ namespace ControlService
             
             app.UseRouting();
 
+            app.UseGrpcWeb(new GrpcWebOptions { DefaultEnabled = true });
             app.UseEndpoints(endpoints =>
             {
                 //endpoints.MapGrpcService<HydrologyControlService>();
-                endpoints.MapGrpcService<HydrologyControlService>();
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello, this is an empty page!");
-                });
+                endpoints.MapGrpcService<HydrologyControlServiceImpl>();
+                //endpoints.MapGet("/", async context =>
+                //{
+                //    await context.Response.WriteAsync("Hello, this is an empty page!");
+                //});
             });
         }
     }
