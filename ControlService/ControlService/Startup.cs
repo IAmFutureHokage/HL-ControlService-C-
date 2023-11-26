@@ -22,8 +22,8 @@ namespace ControlService
         public void ConfigureServices(IServiceCollection services)
         {
             // Настройка подключения к базе данных PostgreSQL
-            services.AddDbContext<HControlServiceDbContext>(options =>
-                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddSingleton<HControlServiceDbContext>(_ =>
+        new HControlServiceDbContext("Host=localhost;Port=5432;Database=HControlService;Username=postgres;Password=321@Adc;"));
             services.AddScoped<Repository<HydrologyControl>>();
             services.AddScoped<HydrologyControlServiceImpl>();
             services.AddGrpc();
