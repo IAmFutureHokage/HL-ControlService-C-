@@ -47,6 +47,11 @@ namespace ControlService.Models.Repositories
         {
             return await Context.Set<TEntity>().FindAsync(id);
         }
+        public IEnumerable<TEntity> GetAll()
+        {
+            return Context.Set<TEntity>();
+        }
+        
         public TEntity? GetLastEntity<TSortKey>(Func<TEntity, TSortKey> orderBy)
         {
             return Context.Set<TEntity>()
@@ -64,6 +69,14 @@ namespace ControlService.Models.Repositories
         {
             return await Context.Set<TEntity>().Where(predicate).ToListAsync();
         }
+
+        public async Task<IEnumerable<TEntity?>> FindAsync(IComparer<TEntity> comparer,Expression<Func<TEntity, bool>> predicate)
+        {
+            var all_entities_list = await Context.Set<TEntity>().Where(predicate).ToListAsync();
+            all_entities_list.Sort(comparer);
+            return all_entities_list;
+        }
+
         public async Task<IEnumerable<TEntity?>> GetPageAsync(int page, int page_size, IComparer<TEntity> comparer) 
         {
 

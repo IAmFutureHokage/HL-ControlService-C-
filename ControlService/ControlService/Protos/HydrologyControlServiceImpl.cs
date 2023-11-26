@@ -6,12 +6,13 @@ using Microsoft.AspNetCore.Components;
 using Google.Protobuf.WellKnownTypes;
 using System;
 using System.Linq.Expressions;
+using static Grpc.Core.Metadata;
 
 namespace ControlService.Protos
 {
     //:HydrologyControlService.HydrologyControlServiceBase
     //[Route("HydrologyControlService")]
-    public class HydrologyControlServiceImpl:HydrologyControlService.HydrologyControlServiceBase
+    public class HydrologyControlServiceImpl : HydrologyControlService.HydrologyControlServiceBase
     {
         Repository<HydrologyControl> repository;
         HControlServiceDbContext context;
@@ -25,7 +26,7 @@ namespace ControlService.Protos
         {
             //repository.
 
-            var last_entity = repository.GetLastEntity(e =>e.Datestart, b => b.PostCode == request.PostCode && b.Type == (int)request.Type);
+            var last_entity = repository.GetLastEntity(e => e.Datestart, b => b.PostCode == request.PostCode && b.Type == (int)request.Type);
             Timestamp temp_timestamp = request.DateStart;
             DateTime new_date_time = temp_timestamp.ToDateTime().AddDays(-1);
             DateOnly new_date = new DateOnly(new_date_time.Year, new_date_time.Month, new_date_time.Day);
@@ -47,16 +48,16 @@ namespace ControlService.Protos
             //response.HydrologyControls.Add(new HydrologyControl { Id = "123", Dateend = "123", Datestart = "123", PostCode = 1, Type = 1, Value = 2 });
             return Task.FromResult(response);
         }
-        public override Task<DeleteResponse> Delete(DeleteRequest request,ServerCallContext context)
+        public override Task<DeleteResponse> Delete(DeleteRequest request, ServerCallContext context)
         {
 
             var response = new DeleteResponse();
             //response.HydrologyControls.Add(new HydrologyControl { Id = "123", Dateend = "123", Datestart = "123", PostCode = 1, Type = 1, Value = 2 });
             return Task.FromResult(response);
         }
-        public override Task<GetResponse> Get(GetRequest request,ServerCallContext context)
+        public override Task<GetResponse> Get(GetRequest request, ServerCallContext context)
         {
-            
+
             //uint max_page = repository.PagesCount(10);
             //uint page = request.Page;
             //IComparer<HydrologyControl> comparer = Comparer<HydrologyControl>.Create((x, y) => x.Datestart.CompareTo(y.Datestart));
@@ -87,14 +88,14 @@ namespace ControlService.Protos
             //    }) ;
             //}
             //return Task.FromResult(response);
-            
-            
-            
+
+
+
             uint max_page = repository.PagesCount(10);
             uint page = request.Page;
             IComparer<HydrologyControl> comparer = Comparer<HydrologyControl>.Create((x, y) => x.Datestart.CompareTo(y.Datestart));
             Expression<Func<HydrologyControl, bool>> predicate = entity => entity.Type == (int)request.Type && entity.PostCode == request.PostCode;
-            List<HydrologyControl?> list = repository.GetPageAsync(1, 10, comparer,predicate).Result.ToList();
+            List<HydrologyControl?> list = repository.GetPageAsync(1, 10, comparer, predicate).Result.ToList();
             GetResponse response = new GetResponse
             {
                 Page = page,
@@ -115,7 +116,7 @@ namespace ControlService.Protos
                         4 => ControlType.Dangerous,
                     },
                     //DateStart = Timestamp.FromDateTime(DateTime.UtcNow),
-                    DateStart = Timestamp.FromDateTime(control.Datestart.ToDateTime(new TimeOnly(0,0,0)).ToUniversalTime()),
+                    DateStart = Timestamp.FromDateTime(control.Datestart.ToDateTime(new TimeOnly(0, 0, 0)).ToUniversalTime()),
                     //DateEnd = Timestamp.FromDateTime(control.Dateend?.ToDateTime(new TimeOnly(0, 0, 0))),
                     //DateEnd = control.Dateend != null ? Timestamp.FromDateTime(control.Dateend.ToDateTime(new TimeOnly(0, 0, 0))) : null,
                     DateEnd = control.Dateend.HasValue ? Timestamp.FromDateTime(control.Dateend.Value.ToDateTime(new TimeOnly(0, 0, 0)).ToUniversalTime()) : null,
@@ -133,11 +134,112 @@ namespace ControlService.Protos
         }
         public override Task<CheckValueResponse> CheckValue(CheckValueRequest request, ServerCallContext context)
         {
+            //IComparer<HydrologyControl> comparer = Comparer<HydrologyControl>.Create((x, y) => x.Value.CompareTo(y.Value));
+            //Expression<Func<HydrologyControl, bool>> predicate = entity =>
+            //Timestamp.FromDateTime(entity.Datestart.ToDateTime(new TimeOnly(0, 0, 0)).ToUniversalTime()) <= request.Date
+            //&& (entity.Dateend.HasValue ?
+            //Timestamp.FromDateTime(entity.Dateend.Value.ToDateTime(new TimeOnly(0, 0, 0)).ToUniversalTime()) :
+            //Timestamp.FromDateTime(DateTime.MaxValue.ToUniversalTime())) >= request.Date
+            //&& entity.PostCode == request.PostCode;
+            //List<HydrologyControl> hydrologyControls = repository.FindAsync(comparer, predicate).Result.ToList();
+            //if (request.Value <= (uint)hydrologyControls[0].Value)
+            //{
+            //    return Task.FromResult(new CheckValueResponse()
+            //    {
+            //        Excess = (uint)ControlType.Norm
+            //    });
+            //}
+            //else if(request.Value >= (uint)hydrologyControls[3].Value)
+            //{
+            //    return Task.FromResult(new CheckValueResponse()
+            //    {
+            //        Excess = (uint)ControlType.Dangerous
+            //    });
+            //}
+            //else if(request.Value >= (uint)hydrologyControls[2].Value && request.Value < (uint)hydrologyControls[3].Value)
+            //{
+            //    return Task.FromResult(new CheckValueResponse()
+            //    {
+            //        Excess = (uint)ControlType.Floodplain
+            //    });
+            //}
+            //return Task.FromResult(new CheckValueResponse()
+            //{
+            //    Excess = (uint)ControlType.Adverse
+            //});
 
-            var response = new CheckValueResponse();
+
+
+
+
+
+            IComparer<HydrologyControl> comparer = Comparer<HydrologyControl>.Create((x, y) => x.Value.CompareTo(y.Value));
+
+            var hydrologyControls = repository
+                .GetAll()
+                    .AsEnumerable()
+                        .Where(entity =>
+                            Timestamp.FromDateTime(entity.Datestart.ToDateTime(new TimeOnly(0, 0, 0)).ToUniversalTime()) <= request.Date &&
+                             (entity.Dateend.HasValue ?
+                            Timestamp.FromDateTime(entity.Dateend.Value.ToDateTime(new TimeOnly(0, 0, 0)).ToUniversalTime()) :
+                            Timestamp.FromDateTime(DateTime.MaxValue.ToUniversalTime())) >= request.Date &&
+                            entity.PostCode == request.PostCode)
+                            .OrderBy(x => x, comparer)
+                            .ToList();
+            if (request.Value <= (uint)hydrologyControls[0].Value)
+            {
+                return Task.FromResult(new CheckValueResponse()
+                {
+                    Excess = (uint)ControlType.Norm
+                });
+            }
+            else if (request.Value >= (uint)hydrologyControls[3].Value)
+            {
+                return Task.FromResult(new CheckValueResponse()
+                {
+                    Excess = (uint)ControlType.Dangerous
+                });
+            }
+            else if (request.Value >= (uint)hydrologyControls[2].Value && request.Value < (uint)hydrologyControls[3].Value)
+            {
+                return Task.FromResult(new CheckValueResponse()
+                {
+                    Excess = (uint)ControlType.Adverse
+                });
+            }
+            return Task.FromResult(new CheckValueResponse()
+            {
+                Excess = (uint)ControlType.Floodplain
+            });
+
+
+
+
+
+
+            //IComparer<HydrologyControl> comparer = Comparer<HydrologyControl>.Create((x, y) => x.Value.CompareTo(y.Value));
+            //Expression<Func<HydrologyControl, bool>> predicate = entity =>
+            //Timestamp.FromDateTime(entity.Datestart.ToDateTime(new TimeOnly(0, 0, 0)).ToUniversalTime()) <= request.Date
+            //&& (entity.Dateend.HasValue ?
+            //Timestamp.FromDateTime(entity.Dateend.Value.ToDateTime(new TimeOnly(0, 0, 0)).ToUniversalTime()) :
+            //Timestamp.FromDateTime(DateTime.MaxValue.ToUniversalTime())) >= request.Date
+            //&& entity.PostCode == request.PostCode;
+            //List<HydrologyControl> hydrologyControls = repository.FindAsync(comparer, predicate).Result.ToList();
+
+
+
+            //IComparer<HydrologyControl> comparer = Comparer<HydrologyControl>.Create((x, y) => x.Value.CompareTo(y.Value));
+            //Expression<Func<HydrologyControl, bool>> predicate = entity =>
+            //Timestamp.FromDateTime(entity.Datestart.ToDateTime(new TimeOnly(0, 0, 0)).ToUniversalTime()) <= request.Date
+            //&& Timestamp.FromDateTime(entity.Dateend.Value.ToDateTime(new TimeOnly(0, 0, 0)).ToUniversalTime()) >=request.Date
+            //&& entity.PostCode == request.PostCode;
+            //List<HydrologyControl> hydrologyControls = repository.FindAsync();
+
+            //var response = new CheckValueResponse();
             //response.HydrologyControls.Add(new HydrologyControl { Id = "123", Dateend = "123", Datestart = "123", PostCode = 1, Type = 1, Value = 2 });
-            return Task.FromResult(response);
+            //return Task.FromResult(response);
         }
+
         public override Task<GetDateResponse> GetDate(GetDateRequest request, ServerCallContext context)
         {
             //google.protobuf.Timestamp date = 1;
