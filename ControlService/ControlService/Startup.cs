@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using ControlService.Models.Repositories;
 using ControlService.Protos;
+using ControlService.Models.Entities;
 
 namespace ControlService
 {
@@ -23,6 +24,8 @@ namespace ControlService
             // Настройка подключения к базе данных PostgreSQL
             services.AddDbContext<HControlServiceDbContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddScoped<Repository<HydrologyControl>>();
+            services.AddScoped<HydrologyControlServiceImpl>();
             services.AddGrpc();
             //services.AddGrpc(options => { options.EnableDetailedErrors = true; }) ;
             var serviceProvider = services.BuildServiceProvider();

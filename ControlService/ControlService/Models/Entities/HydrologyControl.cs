@@ -17,7 +17,7 @@ namespace ControlService.Models.Entities
         [Required]
         public DateOnly Datestart { get; set; }
 
-        public DateOnly Dateend { get; set; }
+        public DateOnly? Dateend { get; set; }
 
         [Required]
         public int Value { get; set; }

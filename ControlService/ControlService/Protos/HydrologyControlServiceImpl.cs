@@ -5,6 +5,7 @@ using ControlService.Models.Entities;
 using Microsoft.AspNetCore.Components;
 using Google.Protobuf.WellKnownTypes;
 using System;
+using System.Linq.Expressions;
 
 namespace ControlService.Protos
 {
@@ -12,10 +13,36 @@ namespace ControlService.Protos
     //[Route("HydrologyControlService")]
     public class HydrologyControlServiceImpl:HydrologyControlService.HydrologyControlServiceBase
     {
-        
+        Repository<HydrologyControl> repository;
+        HControlServiceDbContext context;
+        public HydrologyControlServiceImpl(Repository<HydrologyControl> hydrologyControlRepository, HControlServiceDbContext context)
+        {
+            repository = hydrologyControlRepository;
+            this.context = context;
+        }
+
         public override Task<CreateResponse> Create(CreateRequest request, ServerCallContext context)
         {
+            //repository.
 
+            var last_entity = repository.GetLastEntity(e =>e.Datestart);
+            Timestamp temp_timestamp = request.DateStart;
+            DateTime new_date_time = temp_timestamp.ToDateTime().AddDays(-1);
+            DateOnly new_date = new DateOnly(new_date_time.Year, new_date_time.Month, new_date_time.Day);
+            last_entity.Dateend = new_date;
+            repository.Update(last_entity);
+            DateTime temp_date_time = request.DateStart.ToDateTime();
+            HydrologyControl hydrology_entity = new HydrologyControl()
+            {
+                Id = Guid.NewGuid(),
+                Datestart = new DateOnly(temp_date_time.Year, temp_date_time.Month, temp_date_time.Day),
+                Dateend = null,
+                PostCode = (int)request.PostCode,
+                Type = (int)request.Type,
+                Value = (int)request.Value
+            };
+            repository.AddAsync(hydrology_entity);
+            repository.Complete();
             var response = new CreateResponse();
             //response.HydrologyControls.Add(new HydrologyControl { Id = "123", Dateend = "123", Datestart = "123", PostCode = 1, Type = 1, Value = 2 });
             return Task.FromResult(response);
@@ -29,9 +56,68 @@ namespace ControlService.Protos
         }
         public override Task<GetResponse> Get(GetRequest request,ServerCallContext context)
         {
-
-            GetResponse response = new GetResponse();
-            //response.HydrologyControls.Add(new HydrologyControl { Id = "123", Dateend = "123", Datestart = "123", PostCode = 1, Type = 1, Value = 2 });
+            
+            //uint max_page = repository.PagesCount(10);
+            //uint page = request.Page;
+            //IComparer<HydrologyControl> comparer = Comparer<HydrologyControl>.Create((x, y) => x.Datestart.CompareTo(y.Datestart));
+            //List<HydrologyControl?> list = repository.GetPageAsync(1, 10, comparer).Result.ToList();
+            //GetResponse response = new GetResponse
+            //{
+            //    Page = page,
+            //    MaxPage = max_page,
+            //};
+            //foreach (HydrologyControl? control in list)
+            //{
+            //    response.Data.Add(new GetNFAD
+            //    {
+            //        Id = control.Id.ToString(),
+            //        PostCode = (uint)control.PostCode,
+            //        Type = control.Type switch
+            //        {
+            //            0 => ControlType.None,
+            //            1 => ControlType.Norm,
+            //            2 => ControlType.Floodplain,
+            //            3 => ControlType.Adverse,
+            //            4 => ControlType.Dangerous,
+            //        },
+            //        DateStart = Timestamp.FromDateTime(DateTime.UtcNow),
+            //        DateEnd = Timestamp.FromDateTime(DateTime.UtcNow.AddHours(1)),
+            //        Value = (uint)control.Value
+            //    }) ;
+            //}
+            //return Task.FromResult(response);
+            
+            
+            
+            uint max_page = repository.PagesCount(10);
+            uint page = request.Page;
+            IComparer<HydrologyControl> comparer = Comparer<HydrologyControl>.Create((x, y) => x.Datestart.CompareTo(y.Datestart));
+            Expression<Func<HydrologyControl, bool>> predicate = entity => entity.Type == (int)request.Type && entity.PostCode == request.PostCode;
+            List<HydrologyControl?> list = repository.GetPageAsync(1, 10, comparer,predicate).Result.ToList();
+            GetResponse response = new GetResponse
+            {
+                Page = page,
+                MaxPage = max_page,
+            };
+            foreach (HydrologyControl? control in list)
+            {
+                response.Data.Add(new GetNFAD
+                {
+                    Id = control.Id.ToString(),
+                    PostCode = (uint)control.PostCode,
+                    Type = control.Type switch
+                    {
+                        0 => ControlType.None,
+                        1 => ControlType.Norm,
+                        2 => ControlType.Floodplain,
+                        3 => ControlType.Adverse,
+                        4 => ControlType.Dangerous,
+                    },
+                    DateStart = Timestamp.FromDateTime(DateTime.UtcNow),
+                    DateEnd = Timestamp.FromDateTime(DateTime.UtcNow.AddHours(1)),
+                    Value = (uint)control.Value
+                });
+            }
             return Task.FromResult(response);
         }
         public override Task<UpdateResponse> Update(UpdateRequest request, ServerCallContext context)
@@ -59,14 +145,88 @@ namespace ControlService.Protos
             //var nfad = new NFAD() { Id = "123", DateStart = Timestamp.FromDateTime(new DateTime(2023, 1, 1, 0, 0, 0, DateTimeKind.Utc)), NextId = "213", PrevId = "1312", PostCode = 1, Type = ControlType.Norm, Value = 213 };
             //var nfad = new NFAD() { Id = "123", DateStart = Timestamp.FromDateTime(new DateTime(2023, 1, 1, 0, 0, 0, DateTimeKind.Utc)), NextId = "213", PrevId = "1312", PostCode = 1, Type = ControlType.Norm, Value = 213 };
             //var response = new GetDateResponse(new GetDateResponse() { Data = allnfad });
-            var response = new GetDateResponse();
             //response.HydrologyControls.Add(new HydrologyControl { Id = "123", Dateend = "123", Datestart = "123", PostCode = 1, Type = 1, Value = 2 });
+
+            
+            
+
+
+
+            //Expression<Func<HydrologyControl, bool>> predicate = entity => request.Date>=Timestamp.FromDateTime(entity.Datestart.ToDateTime(new TimeOnly(0, 0, 0))) && request.Date <= Timestamp.FromDateTime(entity.Dateend.ToDateTime(new TimeOnly(0, 0, 0))) && entity.PostCode == request.PostCode;
+            //List<HydrologyControl?> list = repository.FindAsync(predicate).Result.ToList();
+            //AllNFAD allNFAD = new AllNFAD();
+            //foreach(HydrologyControl? control in list)
+            //{
+            //    int num = (int)control.Type;
+            //    switch (num) 
+            //    {
+            //        case (int)ControlType.Norm:
+            //            allNFAD.Norm = (uint)control.Value;
+            //            break;
+            //        case (int)ControlType.Floodplain:
+            //            allNFAD.Floodplain = (uint)control.Value;
+            //            break;
+            //        case (int)ControlType.Adverse:
+            //            allNFAD.Adverse = (uint)control.Value;
+            //            break;
+            //        case (int)ControlType.Dangerous:
+            //            allNFAD.Dangerous = (uint)control.Value;
+            //            break;
+            //        default:
+            //            break;
+            //    }
+            //}
+            //GetDateResponse response = new GetDateResponse
+            //{
+            //    Data = allNFAD
+            //};
+
+
+
+
+
+            GetDateResponse response = new GetDateResponse()
+            {
+                
+            };
             return Task.FromResult(response);
+
+
+
         }
         public override Task<GetIntervalResponse> GetInterval(GetIntervalRequest request, ServerCallContext context)
         {
-            var response = new GetIntervalResponse();
-            //response.HydrologyControls.Add(new HydrologyControl { Id = "123", Dateend = "123", Datestart = "123", PostCode = 1, Type = 1, Value = 2 });
+            //Попробовать вызвать getDate для каждой из дат интервала
+
+
+            //Expression<Func<HydrologyControl, bool>> predicate = entity => request.Date >= Timestamp.FromDateTime(entity.Datestart.ToDateTime(new TimeOnly(0, 0, 0))) && request.Date <= Timestamp.FromDateTime(entity.Dateend.ToDateTime(new TimeOnly(0, 0, 0))) && entity.PostCode == request.PostCode;
+            //List<HydrologyControl?> list = repository.FindAsync(predicate).Result.ToList();
+            //AllNFAD allNFAD = new AllNFAD();
+            //foreach (HydrologyControl? control in list)
+            //{
+            //    int num = (int)control.Type;
+            //    switch (num)
+            //    {
+            //        case (int)ControlType.Norm:
+            //            allNFAD.Norm = (uint)control.Value;
+            //            break;
+            //        case (int)ControlType.Floodplain:
+            //            allNFAD.Floodplain = (uint)control.Value;
+            //            break;
+            //        case (int)ControlType.Adverse:
+            //            allNFAD.Adverse = (uint)control.Value;
+            //            break;
+            //        case (int)ControlType.Dangerous:
+            //            allNFAD.Dangerous = (uint)control.Value;
+            //            break;
+            //        default:
+            //            break;
+            //    }
+            //}
+            GetIntervalResponse response = new GetIntervalResponse
+            {
+                //Data = allNFAD
+            };
             return Task.FromResult(response);
         }
     }
