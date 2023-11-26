@@ -78,7 +78,8 @@ namespace ControlService.Protos
             //            1 => ControlType.Norm,
             //            2 => ControlType.Floodplain,
             //            3 => ControlType.Adverse,
-            //            4 => ControlType.Dangerous,
+            //            4 => ControlType.Dangerous,System.AggregateException: "One or more errors occurred. (Offset and length were out of bounds for the array or count is greater than the number of elements from index to the end of the source collection.)"
+
             //        },
             //        DateStart = Timestamp.FromDateTime(DateTime.UtcNow),
             //        DateEnd = Timestamp.FromDateTime(DateTime.UtcNow.AddHours(1)),
@@ -113,8 +114,11 @@ namespace ControlService.Protos
                         3 => ControlType.Adverse,
                         4 => ControlType.Dangerous,
                     },
-                    DateStart = Timestamp.FromDateTime(DateTime.UtcNow),
-                    DateEnd = Timestamp.FromDateTime(DateTime.UtcNow.AddHours(1)),
+                    //DateStart = Timestamp.FromDateTime(DateTime.UtcNow),
+                    DateStart = Timestamp.FromDateTime(control.Datestart.ToDateTime(new TimeOnly(0,0,0)).ToUniversalTime()),
+                    //DateEnd = Timestamp.FromDateTime(control.Dateend?.ToDateTime(new TimeOnly(0, 0, 0))),
+                    //DateEnd = control.Dateend != null ? Timestamp.FromDateTime(control.Dateend.ToDateTime(new TimeOnly(0, 0, 0))) : null,
+                    DateEnd = control.Dateend.HasValue ? Timestamp.FromDateTime(control.Dateend.Value.ToDateTime(new TimeOnly(0, 0, 0)).ToUniversalTime()) : null,
                     Value = (uint)control.Value
                 });
             }

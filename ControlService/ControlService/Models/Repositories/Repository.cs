@@ -77,12 +77,23 @@ namespace ControlService.Models.Repositories
             var all_entities_list = new List<TEntity>(await Context.Set<TEntity>().Where(predicate).ToListAsync());
             all_entities_list.Sort(comparer);
 
-            return (all_entities_list.Count%page == 0)? all_entities_list.GetRange((page - 1) * page_size, page_size): all_entities_list.GetRange((page - 1) * page_size, all_entities_list.Count % page);
+            //return (all_entities_list.Count%page == 0)? all_entities_list.GetRange((page - 1) * page_size, page_size): all_entities_list.GetRange((page - 1) * page_size, all_entities_list.Count % page);
+
+
+
+            //int startIndex = (page - 1) * page_size;
+            //int count = Math.Min(page_size, all_entities_list.Count - startIndex);
+            
+            
+            int startIndex = (page - 1) * page_size;
+
+
+            return all_entities_list.GetRange(startIndex, all_entities_list.Count - startIndex);
         }
-        public uint PagesCount(int page_size)
+        public uint PagesCount(uint page_size) //переделать c использованием CountAsync
         {
-            uint count = (uint)(Context.Set<TEntity>().Count() / page_size);
-            return count % page_size == 0 ? count : count + 1;
+            uint count = (uint)(Context.Set<TEntity>().Count());
+            return count % page_size == 0 ? (count/page_size) : (count/page_size+1);
         }
         public uint PagesCount(int page_size, Expression<Func<TEntity, bool>> predicate)
         {
