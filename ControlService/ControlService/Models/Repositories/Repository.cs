@@ -25,6 +25,11 @@ namespace ControlService.Models.Repositories
             var result = await Context.Set<TEntity>().AddAsync(entity);
             return result.Entity;
         }
+        //public async Task<TEntity> AddAsync(TEntity entity, Expression<Func<TEntity, bool>> predicate)
+        //{
+        //    var result = await Context.Set<TEntity>().Where(predicate).AddAsync(entity);
+        //    return result.Entity;
+        //}
 
         public async Task<TEntity?> DeleteAsync(Guid id)
         {
@@ -48,6 +53,12 @@ namespace ControlService.Models.Repositories
                 .OrderByDescending(orderBy)
                 .FirstOrDefault();
         }
+        public TEntity? GetLastEntity<TSortKey>(Func<TEntity, TSortKey> orderBy, Expression<Func<TEntity, bool>> predicate)
+        {
+            return Context.Set<TEntity>().Where(predicate)
+                .OrderByDescending(orderBy)
+                .FirstOrDefault();
+        }
 
         public async Task<IEnumerable<TEntity?>> FindAsync(Expression<Func<TEntity, bool>> predicate)
         {
@@ -65,7 +76,8 @@ namespace ControlService.Models.Repositories
 
             var all_entities_list = new List<TEntity>(await Context.Set<TEntity>().Where(predicate).ToListAsync());
             all_entities_list.Sort(comparer);
-            return all_entities_list.GetRange((page - 1) * page_size, page_size);
+
+            return (all_entities_list.Count%page == 0)? all_entities_list.GetRange((page - 1) * page_size, page_size): all_entities_list.GetRange((page - 1) * page_size, all_entities_list.Count % page);
         }
         public uint PagesCount(int page_size)
         {

@@ -25,7 +25,7 @@ namespace ControlService.Protos
         {
             //repository.
 
-            var last_entity = repository.GetLastEntity(e =>e.Datestart);
+            var last_entity = repository.GetLastEntity(e =>e.Datestart, b => b.PostCode == request.PostCode && b.Type == (int)request.Type);
             Timestamp temp_timestamp = request.DateStart;
             DateTime new_date_time = temp_timestamp.ToDateTime().AddDays(-1);
             DateOnly new_date = new DateOnly(new_date_time.Year, new_date_time.Month, new_date_time.Day);
