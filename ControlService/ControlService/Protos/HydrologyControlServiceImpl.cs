@@ -190,7 +190,7 @@ namespace ControlService.Protos
             {
                 return Task.FromResult(new CheckValueResponse()
                 {
-                    Excess = (uint)ControlType.Norm
+                    Excess = (uint)ControlType.None
                 });
             }
             else if (request.Value >= (uint)hydrologyControls[3].Value)
@@ -207,9 +207,16 @@ namespace ControlService.Protos
                     Excess = (uint)ControlType.Adverse
                 });
             }
+            else if(request.Value >= (uint)hydrologyControls[1].Value && request.Value < (uint)hydrologyControls[2].Value)
+            {
+                return Task.FromResult(new CheckValueResponse()
+                {
+                    Excess = (uint)ControlType.Floodplain
+                });
+            }
             return Task.FromResult(new CheckValueResponse()
             {
-                Excess = (uint)ControlType.Floodplain
+                Excess = (uint)ControlType.Norm
             });
 
 
