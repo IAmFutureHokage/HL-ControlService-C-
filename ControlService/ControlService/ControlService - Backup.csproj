@@ -6,10 +6,14 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Protos\HydrologyControlService.proto" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="Google.Protobuf" Version="3.25.1" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.59.0" />
     <PackageReference Include="Grpc.AspNetCore.Server" Version="2.59.0" />
     <PackageReference Include="Grpc.AspNetCore.Web" Version="2.59.0" />
     <PackageReference Include="Grpc.Tools" Version="2.59.0">
@@ -23,7 +27,6 @@
   <ItemGroup>
     <Folder Include="Exceptions\" />
     <Folder Include="Controllers\" />
-    <Folder Include="Properties\" />
     <Folder Include="Services\" />
     <Folder Include="Utilities\Converters\" />
   </ItemGroup>
@@ -31,7 +34,5 @@
   <ItemGroup>
     <Protobuf Include="Protos\HydrologyControlService.proto" GrpcServices="Server" />
   </ItemGroup>
-
-	
 
 </Project>

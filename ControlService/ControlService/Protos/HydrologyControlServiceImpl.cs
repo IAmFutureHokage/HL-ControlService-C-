@@ -15,11 +15,11 @@ namespace ControlService.Protos
     public class HydrologyControlServiceImpl : HydrologyControlService.HydrologyControlServiceBase
     {
         Repository<HydrologyControl> repository;
-        HControlServiceDbContext context;
+        
         public HydrologyControlServiceImpl(Repository<HydrologyControl> hydrologyControlRepository, HControlServiceDbContext context)
         {
             repository = hydrologyControlRepository;
-            this.context = context;
+            
         }
 
         public override Task<CreateResponse> Create(CreateRequest request, ServerCallContext context)

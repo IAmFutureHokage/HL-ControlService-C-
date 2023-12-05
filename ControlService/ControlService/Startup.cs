@@ -21,17 +21,53 @@ namespace ControlService
 
         public void ConfigureServices(IServiceCollection services)
         {
-            // Настройка подключения к базе данных PostgreSQL
-            services.AddSingleton<HControlServiceDbContext>(_ =>
-        new HControlServiceDbContext("Host=localhost;Port=5432;Database=HControlService;Username=postgres;Password=321@Adc;"));
+            //var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            //Console.WriteLine($"ConnectionString: {connectionString}");
+            services.AddDbContext<HControlServiceDbContext>(options =>
+                options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+
+            //    services.AddSingleton<HControlServiceDbContext>(_ =>
+            //new HControlServiceDbContext(Configuration.GetConnectionString("DefaultConnection")));
+            //services.AddScoped<HControlServiceDbContext>();
             services.AddScoped<Repository<HydrologyControl>>();
             services.AddScoped<HydrologyControlServiceImpl>();
             services.AddGrpc();
+
+
+
             //services.AddGrpc(options => { options.EnableDetailedErrors = true; }) ;
-            var serviceProvider = services.BuildServiceProvider();
-            var dbContext = serviceProvider.GetService<HControlServiceDbContext>();
+
+
+            //var serviceProvider = services.BuildServiceProvider();
+            //var dbContext = serviceProvider.GetService<HControlServiceDbContext>();
 
             services.AddControllersWithViews();
+
+
+
+
+
+
+
+
+
+
+            // Настройка подключения к базе данных PostgreSQL
+            //    services.AddSingleton<HControlServiceDbContext>(_ =>
+            //new HControlServiceDbContext("Host=localhost;Port=5432;Database=HControlService;Username=postgres;Password=321@Adc;"));
+
+
+
+
+
+            //services.AddScoped<Repository<HydrologyControl>>();
+            //services.AddScoped<HydrologyControlServiceImpl>();
+            //services.AddGrpc();
+            //services.AddGrpc(options => { options.EnableDetailedErrors = true; }) ;
+            //var serviceProvider = services.BuildServiceProvider();
+            //var dbContext = serviceProvider.GetService<HControlServiceDbContext>();
+
+            //services.AddControllersWithViews();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
